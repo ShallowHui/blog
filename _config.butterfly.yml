@@ -10,7 +10,7 @@ menu:
   列表||fas fa-list||hide:
     Music: /music/ || fas fa-music
   #   Movie: /movies/ || fas fa-video
-  友情链接: /link/ || fas fa-link
+  链接: /link/ || fas fa-link
   关于&留言: /about/ || fas fa-heart
 
 # Code Blocks (代碼相關)
