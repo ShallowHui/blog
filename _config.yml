@@ -102,7 +102,7 @@ theme: butterfly
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: 'git'
+  type: git
   repo: https://github.com/ShallowHui/ShallowHui.github.io.git
   branch: master
 
