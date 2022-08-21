@@ -1,0 +1,7 @@
+- class_name: 友情链接
+  class_desc: 那些人，那些事
+  link_list:
+    - name: 515code-实验室
+      link: https://www.515code.com/
+      avatar: https://www.515code.com/img/head.jpg
+      descr: 永远相信，你遇到的bug即将迎刃而解
