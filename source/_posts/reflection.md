@@ -6,6 +6,7 @@ tags:
     - 注解
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/java.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/java.jpg
 description: 在程序运行的时候，可以获取某个类，某个对象的全部信息，称为反射。注解技术基于反射。
 ---
 ## 什么是反射

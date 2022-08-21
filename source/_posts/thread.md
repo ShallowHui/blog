@@ -4,6 +4,7 @@ date: 2020-04-27 12:44:45
 tags: 并发编程
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/thread.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/thread.jpg
 description: 这篇文章介绍了进程、线程的基本概念，以及如何在Java中进行简单的多线程编程，并且考虑到了并发带来的安全问题。
 ---
 ## 前言

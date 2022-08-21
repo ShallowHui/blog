@@ -4,6 +4,7 @@ date: 2020-11-23 23:54:11
 tags: Docker
 categories: Go
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/docker.png
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/docker.png
 description: Docker是现在非常流行的容器化技术，利用Docker，可以非常快速方便的配置好开发环境和部署项目~
 ---
 ## Docker简介

@@ -6,6 +6,7 @@ tags:
     - Spring
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/mybatis.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/mybatis.jpg
 description: Mybatis是一个强大的ORM(Object/Relational Mapping，即对象关系映射)框架，可以很好地将Java实体类型映射为数据库中的关系表，并将数据持久化。
 ---
 ## Mybatis简介

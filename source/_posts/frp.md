@@ -6,6 +6,7 @@ tags:
     - 反向代理
 categories: Go
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/frp.jpeg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/frp.jpeg
 description: 这篇文章讲解了如何利用内网穿透的技术，来实现在外网上访问内网中的主机，用到的工具是frp。
 ---
 ## 内网穿透

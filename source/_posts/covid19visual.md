@@ -4,6 +4,7 @@ date: 2020-11-16 10:36:28
 tags: 数据可视化
 categories: Python
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/python.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/python.jpg
 description: 用Python中较为流行的matplotlib可视化库来绘制新冠疫情爆发至今，展示世界疫情变化情况的动态可视化地图。
 ---
 ## 前言

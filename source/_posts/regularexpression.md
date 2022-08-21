@@ -4,6 +4,7 @@ date: 2020-04-11 13:43:29
 tags: 正则表达式
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/re.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/re.jpg
 description: 正则表达式的功能十分强大，可以让我们在编程中省去许多麻烦，无论是前端或是后端程序员都应该掌握这个工具，这篇文章系统地讲解了下正则表达式。
 ---
 ## 前言

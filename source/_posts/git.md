@@ -4,6 +4,7 @@ date: 2020-03-16 19:50:26
 tags: Git基础
 categories: Git
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/gitpage.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/gitpage.jpg
 description: 这篇文章简单地入门Git这个工具，介绍了版本控制的概念。文章后面用来记录Git的常用命令。
 ---
 ## Git——分布式版本控制系统

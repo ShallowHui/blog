@@ -4,6 +4,7 @@ date: 2020-06-21 13:29:29
 tags: Spring
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spring.png
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spring.png
 description: Spirng一统Java后端开发领域，是每一个Java后端开发程序员必学的东西。这里大致介绍了下Spring框架的体系结构，顺便提及了如何去下载Spring，在项目中引入Spring框架。
 ---
 ## Spring简介

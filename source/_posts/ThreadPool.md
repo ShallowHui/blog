@@ -4,6 +4,7 @@ date: 2021-11-17 23:56:34
 tags: 线程池
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/java.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/java.jpg
 description: 自己动手写一个简单的线程池Java实现，加深对线程池各个核心参数的理解吧~
 ---
 ## 线程池的定义

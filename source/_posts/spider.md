@@ -4,6 +4,7 @@ date: 2020-03-25 13:53:52
 tags: 网络爬虫
 categories: Python
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spider.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spider.jpg
 description: 爬虫技术现在也十分火热，这篇文章就介绍了如何用Python来实现一个入门的爬虫案例。
 ---
 ## 网络爬虫简介

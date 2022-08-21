@@ -4,6 +4,7 @@ date: 2020-04-15 15:03:29
 tags: macOS
 categories: 开发环境配置
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/mac.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/mac.jpg
 description: 网上很多在MacOS上配置环境变量的教程都过时了，这里介绍了在zsh这个Shell上，如何用Vim配置环境变量。
 ---
 ## 前言

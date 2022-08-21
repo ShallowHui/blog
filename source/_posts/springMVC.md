@@ -6,6 +6,7 @@ tags:
     - Spring
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spring.png
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spring.png
 description: Spring是SSM框架的基石，而Spring本身提供的SpringMVC则是实现MVC设计模式的轻量级框架，我们可以用SpringMVC来开发MVC的控制层。
 ---
 ## 概述

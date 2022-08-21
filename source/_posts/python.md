@@ -4,6 +4,7 @@ date: 2020-04-06 12:03:45
 tags: Python高级
 categories: Python
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/python.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/python.jpg
 description: Python的高级语法、特性都会在这篇文章中介绍，比如Python的函数嵌套，Python的装饰器、迭代器，等等。
 ---
 ## 函数的嵌套定义

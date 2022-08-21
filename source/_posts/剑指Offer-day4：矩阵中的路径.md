@@ -4,6 +4,7 @@ date: 2021-05-31 22:28:04
 tags: 数据结构与算法
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/data.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/data.jpg
 description: 这个系列的文章就用来记录我在Leetcode上刷的剑指Offer算法题目。
 ---
 ## 题目

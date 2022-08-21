@@ -6,6 +6,7 @@ tags:
     - Nginx
 categories: Python
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/jupyter.png
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/jupyter.png
 description: 快来搭建属于你自己的远程编程环境吧~
 ---
 ## Jupyter简介

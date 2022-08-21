@@ -4,6 +4,7 @@ date: 2020-09-29 10:35:53
 tags: Maven
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/maven.png
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/maven.png
 description: 掌握maven有助于你更快地构建、开发项目。
 ---
 ## 项目构建

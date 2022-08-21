@@ -6,6 +6,7 @@ tags:
     - 动态代理
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spring.png
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spring.png
 description: Spring两大核心特性之一的AOP，面向切面编程。本篇文章讲解了在Spirng框架中，如何通过动态代理的方式来实现AOP。
 ---
 ## 什么是AOP

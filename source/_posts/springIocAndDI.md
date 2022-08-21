@@ -4,6 +4,7 @@ date: 2020-06-26 10:29:29
 tags: Spring
 categories: Java
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spring.png
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/spring.png
 description: 这篇文章介绍了Spring框架的两大核心特性之一的IoC，讲解了如何使用Sping这个大工厂来生产和管理Bean。
 ---
 ## Bean
