@@ -660,7 +660,7 @@ aside:
     button:
       enable: true
       icon: fab fa-github
-      text: Welcome follow Me
+      text: Follow Me
       link: https://github.com/ShallowHui
   card_announcement:
     enable: true
