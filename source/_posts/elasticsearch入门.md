@@ -3,8 +3,8 @@ title: Elasticsearch入门
 date: 2022-8-26 16:29:11
 tags: Elasticsearch
 categories: Java
-cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/elasticsearch.png
-top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/elasticsearch.png
+cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/elasticsearch.jpg
+top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/elasticsearch.jpg
 description: 一款Java开发的，分布式的，可以对存储的数据进行搜索、分析的引擎。
 ---
 
