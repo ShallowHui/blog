@@ -94,7 +94,7 @@ Elasticsearch可以用来存储数据，但与传统关系型数据库不同的�
 
 1. 作名词：如前所述，相当于关系型数据库中的数据库概念，指Elasticsearch中，**具有大致相同结构和含义的一组文档的逻辑集合**。
 
-2. 作动词：将文档存储到Elasticsearch中，也可以表诉为：将文档索引到Elasticsearch中，因为Elasticsearch马上就会为文档建立索引。
+2. 作动词：将文档存储到Elasticsearch中，也可以表述为：将文档索引到Elasticsearch中，因为Elasticsearch马上就会为文档建立索引。
 
 3. 作名词：为文档建立索引，这里的索引就是指那些索引结构了，比如倒排索引。
 
