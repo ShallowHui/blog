@@ -7,7 +7,6 @@ cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/elasticsearch.jpg
 top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/elasticsearch.jpg
 description: 一款Java开发的，分布式的，可以对存储的数据进行搜索、分析的引擎。
 ---
-
 ## Elasticsearch介绍
 
 在其[官网](https://www.elastic.co/guide/en/elasticsearch/reference/8.3/elasticsearch-intro.html)中，有如下介绍：
