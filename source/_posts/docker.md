@@ -43,7 +43,7 @@ Docker支持Windows、macOS、Linux。
 
 在官网上有相应平台的安装教程：
 
-[https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
+[https://docs.docker.com/engine/install](https://docs.docker.com/engine/install)
 
 注意，Linux平台安装的时候，由于apt或者yum用的软件源是国外的，可能下载安装Docker会失败，建议更改为国内源。
 
