@@ -9,7 +9,7 @@ description: 一款Java开发的，分布式的，可以对存储的数据进行
 ---
 ## Elasticsearch介绍
 
-在其[官网](https://www.elastic.co/guide/en/elasticsearch/reference/8.3/elasticsearch-intro.html)中，有如下介绍：
+在其[官网](https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html)中，有如下介绍：
 
 >Elasticsearch是位于Elastic Stack核心的分布式搜索和分析引擎。Logstash和Beats有助于收集、聚合和丰富您的数据并将其存储在Elasticsearch中。Kibana使您能够以交互方式探索、可视化和分享对数据的见解，并管理和监控Stack。Elasticsearch是进行索引、搜索和分析的地方。
 >
