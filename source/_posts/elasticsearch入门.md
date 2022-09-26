@@ -17,13 +17,13 @@ description: 一款Java开发的，分布式的，可以对存储的数据进行
 
 显然，Elasticsearch不仅可以存储数据，还可以对数据进行`近实时`的搜索和分析，正如它的口号：`You konw, for search`。
 
-不同于传统的关系型数据库，通过SQL对结构化数据进行查询（搜索），Elasticsearch通过DSL（特定领域语言），不仅可以对结构化数据进行查询，比如匹配查询、范围查询，还可以对非结构化数据进行查询，比如全文搜索。
+不同于传统的关系型数据库，通过SQL对结构化数据进行查询（搜索），Elasticsearch通过DSL（特定领域语言），不仅可以对结构化数据进行查询，比如匹配查询、范围查询，还可以对非结构化的文本数据进行全文搜索。
 
-存储到Elasticsearch中的数据，会近乎实时地（1秒内）被建立索引以便可以完全对其进行搜索。Elsticsearch对不同类型的数据存储有专门的优化数据结构，比如对文本类型的数据使用了一种名为`倒排索引`的数据结构，其支持非常快速的全文搜索，关于倒排的资料可以自行搜索，不难。而数字和地理类型的数据存储在`BKD树`中。
+存储到Elasticsearch中的数据，会近乎实时地（1秒内）被建立索引以便可以对其进行搜索。Elsticsearch对不同类型的数据有专门优化的索引数据结构，比如对文本类型的数据使用了一种名为`倒排索引`的数据结构，其支持非常快速的全文搜索，而数字和地理类型的数据索引使用的是`BKD树`。
 
-Elasticsearch是基于Apache旗下的`Lucene`进行开发的，Lucene才是真正工作的搜索和分析引擎，Elasticsearch在其之上做了个封装，主要负责管理Elasticsearch集群，并对外提供HTTP的RESTful接口。
+Elasticsearch是基于Apache旗下的`Lucene`进行开发的，Lucene才是真正工作的搜索和分析引擎，Elasticsearch在其之上做了个封装，隐藏其复杂性，主要负责管理Elasticsearch集群，并对外提供基于HTTP的RESTful接口。
 
-这篇文章简单介绍一下`8.3`版本的Elasticsearch。
+这篇文章简单介绍一下`8.x`版本的Elasticsearch。
 
 ## 下载启动
 
