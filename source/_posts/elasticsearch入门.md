@@ -11,15 +11,17 @@ description: 一款Java开发的，分布式的，可以对存储的数据进行
 
 在其[官网](https://www.elastic.co/guide/en/elasticsearch/reference/8.3/elasticsearch-intro.html)中，有如下介绍：
 
->Elasticsearch是位于Elastic Stack核心的分布式搜索和分析引擎。Logstash和Beats有助于收集、聚合和丰富您的数据并将其存储在Elasticsearch中。Kibana使您能够以交互方式探索、可视化和分享对数据的见解，并管理和监控Stack。Elasticsearch是索引、搜索和分析魔法发生的地方。
+>Elasticsearch是位于Elastic Stack核心的分布式搜索和分析引擎。Logstash和Beats有助于收集、聚合和丰富您的数据并将其存储在Elasticsearch中。Kibana使您能够以交互方式探索、可视化和分享对数据的见解，并管理和监控Stack。Elasticsearch是进行索引、搜索和分析的地方。
 >
 >Elasticsearch为所有类型的数据提供近乎实时的搜索和分析。无论您拥有结构化或非结构化文本、数字数据还是地理空间数据，Elasticsearch都能以支持快速搜索的方式高效地存储和索引它。您可以进行数据检索和聚合信息来发现数据中的趋势和模式。随着您的数据和查询量的增长，Elasticsearch的分布式特性使您的部署能够随之无缝增长。
 
 显然，Elasticsearch不仅可以存储数据，还可以对数据进行`近实时`的搜索和分析，正如它的口号：`You konw, for search`。
 
-不同于传统的关系型数据库，通过SQL对结构化数据进行查询（搜索），Elasticsearch通过DSL（特定领域语言），不仅可以对结构化数据进行查询，比如匹配查询、范围查询，还可以对非结构化的文本数据进行全文搜索。
+不同于传统的关系型数据库，通过SQL对结构化数据进行查询（搜索），Elasticsearch通过DSL（特定领域语言），不仅可以对结构化数据进行查询，比如匹配查询、范围查询，还可以对非结构化的文本数据进行全文搜索，这是关系型数据库很难完成的任务。
 
-存储到Elasticsearch中的数据，会近乎实时地（1秒内）被建立索引以便可以对其进行搜索。Elsticsearch对不同类型的数据有专门优化的索引数据结构，比如对文本类型的数据使用了一种名为`倒排索引`的数据结构，其支持非常快速的全文搜索，而数字和地理类型的数据索引使用的是`BKD树`。
+存储到Elasticsearch中的数据，会近乎实时地（1秒内）被建立索引然后就完全可以对其进行搜索。**这是因为Elasticsearch会为每一个字段建立索引，每个被索引的字段都有一个专用的优化数据结构，例如，文本（text）字段存储在`倒排索引`中，而数字和地理字段存储到`BKD`树中。**
+
+  Elasticsearch会为文档中的每一个`text`类型的字段建立倒排索引，通过倒排索引，可以找到包含某个关键词（Term）的所有文档（Posting List）。
 
 Elasticsearch是基于Apache旗下的`Lucene`进行开发的，Lucene才是真正工作的搜索和分析引擎，Elasticsearch在其之上做了个封装，隐藏其复杂性，主要负责管理Elasticsearch集群，并对外提供基于HTTP的RESTful接口。
 
