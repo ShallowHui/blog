@@ -137,10 +137,10 @@ DELETE /test
 
 添加文档，通过在请求体中携带JSON数据：
 
-`POST /{index}/_create/{id}`
+`PUT /{index}/_doc/{id}`
 
 ```
-POST /test/_create/1
+PUT /test/_doc/1
 {
   "name": "zunhuier",
   "age": 26
