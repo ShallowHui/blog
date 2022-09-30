@@ -20,9 +20,9 @@ description: 简单介绍一下如何基于redis的setnx命令实现一个分布
 public class GoodsController {
 
     @Autowired
-    StringRedisTemplate redisTemplate;
+    StringRedisTemplate redisTemplate; // 使用 spring-boot-starter-data-redis
 
-    private static final String GOODS = "GOODS";
+    private static final String GOODS = "GOODS"; // 商品
 
     @GetMapping("/buygoods")
     public String buyGoods() {
@@ -110,4 +110,71 @@ public class GoodsController {
     }
 
 }
+```
+
+但是，如果是在分布式环境下，上面这两种方法就无效了。在如今微服务架构大行其道的情况下，一个服务可能同时部署多份实例，那么一个JVM实例进程中的锁，显然管不到其它JVM实例、其它进程的运行了。**所以，需要使用更进一步的分布式锁，来保证不同进程对共享资源的互斥访问。**
+
+## 分布式锁的特性
+
+保证一个分布式锁的有效性，至少需要满足以下三个条件：
+
++ 互斥：在任何时刻，锁只能被一个客户端持有。
+
+redis提供一个`setnx`命令，让用户在redis中不存在这个key时，才可以创建该key。一个用户先创建了key，其它用户就无法再创建同一个key了。这就是redis实现分布式锁的关键，这个key就相当于锁，只能被一个用户持有，可以有效保证锁的互斥使用。
+
++ 无死锁：需要保证即使当前持有锁的客户端发生崩溃，其它用户还可以继续获得锁，整个系统还能继续运行下去。
+
+正常来说，谁持有锁，那么在完成任务后就要负责解锁。但可能这个客户端在执行任务的时候，机器崩溃了，那之后一直没人去解锁（删除redis中的key）导致其它客户端永远也无法获得锁了，整个系统就陷入了死锁的状态。所以需要给锁设置一个过期时间（redis支持设置key的过期时间），这样即使锁的持有者崩溃了，一定时间后锁过期被redis自动删除，其它客户端就可以继续去获取锁了。但这样会引入一个新的问题，这在下文会详细解释。
+
++ 高可用。
+
+显然，不仅客户端可能发生崩溃，redis自己也可能发生崩溃，只使用一个redis实例支撑一个分布式系统的风险较大，所以需要使用redis集群来保证锁的高可用性，只要集群中的大多数redis节点存活，客户端就能加锁解锁。
+
+## 原子性加锁、解锁
+
+**redis自身保证命令执行的原子性，所以我们只需在编写操作redis的代码时保证操作的原子性即可：**
+
+```java
+@RestController
+public class GoodsController {
+
+    @Autowired
+    StringRedisTemplate redisTemplate; // 使用 spring-boot-starter-data-redis
+
+    private static final String GOODS = "GOODS";
+
+    private static final String LOCK_KEY = "LOCK"; // 分布式锁在redis中的key
+
+    @GetMapping("/buygoods")
+    public String buyGoods() {
+        String value = UUID.randomUUID().toString(); // 生成随机值，作为key的value
+        Boolean isLock = redisTemplate.opsForValue().setIfAbsent(LOCK_KEY, value); // 加锁
+        if (!isLock) {
+            return "抢锁失败！";
+        }
+        try {
+            String s = redisTemplate.opsForValue().get(GOODS);
+            int n = s == null ? 0 : Integer.parseInt(s);
+            if (n > 0) {
+                redisTemplate.opsForValue().set(GOODS, String.valueOf(n-1));
+                return "成功购买到商品！";
+            } else {
+                return "购买商品失败！";
+            }
+        } finally {
+            redisTemplate.delete(LOCK_KEY); // 解锁
+        }
+    }
+
+}
+```
+
+这里抢锁失败就简单地直接返回了，实际业务中可能要不断地去尝试加锁。
+
+## 设置锁过期时间
+
+`redisTemplate`提供这样的设置过期时间的方式：
+
+```java
+
 ```
