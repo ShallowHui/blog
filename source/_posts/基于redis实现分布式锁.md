@@ -176,5 +176,4 @@ public class GoodsController {
 `redisTemplate`提供这样的设置过期时间的方式：
 
 ```java
-// test
 ```
