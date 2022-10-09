@@ -176,4 +176,37 @@ public class GoodsController {
 `redisTemplate`提供这样的设置过期时间的方式：
 
 ```java
+Boolean isLock = redisTemplate.opsForValue().setIfAbsent(LOCK_KEY, value); // 加锁
+redisTemplate.expire(LOCK_KEY, 10L, TimeUnit.SECONDS); // 给锁设置过期时间
+```
+
+但这样操作显然不是原子性的，会出现这样一个问题：当一个服务实例成功执行完加锁语句后，突然宕机了，那么锁是加上了，但还没来得及给锁设置过期时间，其它实例也动不了这把锁，这样就又会造成死锁问题了。
+
+所以redis提供了一种命令，可以在set一个key的同时，给key设置过期时间，redis自身保证其原子性。对应于Java代码的实现如下：
+
+```java
+Boolean isLock = redisTemplate.opsForValue().setIfAbsent(LOCK_KEY, value, 10L, TimeUnit.SECONDS); // 加锁并同时设置过期时间
+```
+
+这里给锁设置了10秒的过期时间，但实际上，对于业务的预估处理时间是不可能很精确的。比如业务中有RPC，但由于网络延迟的问题，业务处理时间花了15秒，超过了锁的过期时间，这就会造成上面所说的，引入锁过期时间后的新问题一误删其它实例的锁。
+
+## 误删锁
+
+比如有A、B两个实例，A先获取到了锁并设置过期时间为10秒，但A超过10秒还没处理完业务。这时，锁就过期被redis删除了，B获取到锁并设置过期时间，开始处理业务。然后又过了几秒，A处理完业务了，要进行解锁，但此时锁是被B持有的并且没有过期，B还正在处理业务，这时A就会把B的锁给删除了，导致其它实例可以获取锁了，可能会产生与B的同步问题，当然，B可能也会与A产生同步问题。
+
+如果一个实例只能删除自己的锁，不能删除其它实例加的锁，那么可能只会在A和B实例之间产生同步问题，但如果可以误删锁，那么可能就会在之后一系列的实例中出现问题。所以，两者取其轻，需要在`finally`块中，对解锁操作加以限制。
+
+key的value可以设置为一个随机值，用于区分是不是自身持有的锁：
+
+```java
+String value = UUID.randomUUID().toString() + Thread.currentThread().getName(); // 随机生成一个UUID加上当前线程的名字
+
+...
+
+finally {
+    // 只用当前锁的value是自己加的，才能进行解锁
+    if (value.equals(redisTemplate.opsForValue().get(LOCK_KEY))) {
+        redisTemplate.delete(LOCK_KEY);
+    }
+}
 ```
