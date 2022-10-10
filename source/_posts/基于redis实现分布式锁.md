@@ -188,7 +188,7 @@ redisTemplate.expire(LOCK_KEY, 10L, TimeUnit.SECONDS); // 给锁设置过期时�
 Boolean isLock = redisTemplate.opsForValue().setIfAbsent(LOCK_KEY, value, 10L, TimeUnit.SECONDS); // 加锁并同时设置过期时间
 ```
 
-这里给锁设置了10秒的过期时间，但实际上，对于业务的预估处理时间是不可能很精确的。比如业务中有RPC，但由于网络延迟的问题，业务处理时间花了15秒，超过了锁的过期时间，这就会造成上面所说的，引入锁过期时间后的新问题一误删其它实例的锁。
+这里给锁设置了10秒的过期时间，但实际上，对于业务的预估处理时间是不可能很精确的。比如业务中有RPC，但由于网络延迟的问题，业务处理时间花了15秒，超过了锁的过期时间，这就会造成上面所说的，设置了锁过期时间后会引入新问题。
 
 ## 误删锁
 
@@ -200,13 +200,48 @@ key的value可以设置为一个随机值，用于区分是不是自身持有的
 
 ```java
 String value = UUID.randomUUID().toString() + Thread.currentThread().getName(); // 随机生成一个UUID加上当前线程的名字
+Boolean isLock = redisTemplate.opsForValue().setIfAbsent(LOCK_KEY, value, 10L, TimeUnit.SECONDS); // 加锁并同时设置过期时间
 
 ...
 
 finally {
-    // 只用当前锁的value是自己加的，才能进行解锁
+    // 只有当前锁的value是自己设置的，才能进行解锁
     if (value.equals(redisTemplate.opsForValue().get(LOCK_KEY))) {
         redisTemplate.delete(LOCK_KEY);
     }
 }
+```
+
+但这样的解锁操作不是原子性的，想象一下，当一个实例刚判断完这个锁是自己加的，然后锁就到期了，另一个实例马上获得锁，那接下来这个实例就会误删了其它实例的锁。所以还是需要原子性的解锁，有如下两种方法可以参考。
+
+### 利用Lua脚本
+
+最常见的方法是让redis执行Lua脚本，redis自身保证可以原子性地执行一个Lua脚本。redis官方文档中也对分布式锁的实现有说明：[Correct Implementation with a Single Instance](https://redis.io/docs/reference/patterns/distributed-locks/#correct-implementation-with-a-single-instance)。
+
+```java
+finally {
+    // Lua脚本，直接返回0说明已经不是自己的锁了，不能删，返回1说明删锁成功
+    String lua = "if redis.call('get',KEYS[1]) == ARGV[1] then " +
+                    "return redis.call('del',KEYS[1]) " +
+                    "else " +
+                    "return 0 " +
+                    "end";
+    DefaultRedisScript<Long> defaultRedisScript = new DefaultRedisScript<>(lua, Long.class);
+    Long result = redisTemplate.execute(defaultRedisScript, Collections.singletonList(LOCK_KEY), value);
+    if (result == 1L) {
+        System.out.println("删锁成功！");
+    } else {
+        System.out.println("删锁失败！");
+    }
+}
+```
+
+### 利用redis事务
+
+redis支持事务：[Transactions](https://redis.io/docs/manual/transactions)，并且redis支持一个命令：`watch`，可以用于在提交事务的过程中，监听一个key是否发生改变，如果发生改变，那么提交完事务后进行执行，事务会执行失败。
+
+所以，可以利用redis事务的原子性和`watch`命令，实现一种`乐观锁`（[Optimistic locking using check-and-set](https://redis.io/docs/manual/transactions/#optimistic-locking-using-check-and-set)）式的原子性删锁方式。
+
+```java
+
 ```
