@@ -182,7 +182,7 @@ redisTemplate.expire(LOCK_KEY, 10L, TimeUnit.SECONDS); // 给锁设置过期时�
 
 但这样操作显然不是原子性的，会出现这样一个问题：当一个服务实例成功执行完加锁语句后，突然宕机了，那么锁是加上了，但还没来得及给锁设置过期时间，其它实例也动不了这把锁，这样就又会造成死锁问题了。
 
-所以redis提供了一种命令，可以在set一个key的同时，给key设置过期时间，redis自身保证其原子性。对应于Java代码的实现如下：
+所以redis提供了一个命令，可以在set一个key的同时，给key设置过期时间，redis自身保证其原子性。对应于Java代码的实现如下：
 
 ```java
 Boolean isLock = redisTemplate.opsForValue().setIfAbsent(LOCK_KEY, value, 10L, TimeUnit.SECONDS); // 加锁并同时设置过期时间
@@ -192,14 +192,14 @@ Boolean isLock = redisTemplate.opsForValue().setIfAbsent(LOCK_KEY, value, 10L, T
 
 ## 误删锁
 
-比如有A、B两个实例，A先获取到了锁并设置过期时间为10秒，但A超过10秒还没处理完业务。这时，锁就过期被redis删除了，B获取到锁并设置过期时间，开始处理业务。然后又过了几秒，A处理完业务了，要进行解锁，但此时锁是被B持有的并且没有过期，B还正在处理业务，这时A就会把B的锁给删除了，导致其它实例可以获取锁了，可能会产生与B的同步问题，当然，B可能也会与A产生同步问题。
+比如有A、B两个实例，A先获取到了锁并设置过期时间为10秒，但A超过10秒还没处理完业务。这时，锁就过期被redis删除了，B马上获取到锁并设置过期时间，开始处理业务。然后又过了几秒，A处理完业务了，要进行解锁，但此时锁是被B持有的并且没有过期，B还正在处理业务，这时A就会把B的锁给删除了，导致其它实例可以获取锁了，可能会产生与B的同步问题，当然，B可能也会与A产生同步问题。
 
-如果一个实例只能删除自己的锁，不能删除其它实例加的锁，那么可能只会在A和B实例之间产生同步问题，但如果可以误删锁，那么可能就会在之后一系列的实例中出现问题。所以，两者取其轻，需要在`finally`块中，对解锁操作加以限制。
+如果一个实例只能删除自己的锁，不能删除其它实例加的锁，那么可能只会在A和B实例之间产生同步问题，但如果可以误删锁，那么可能就会在之后一系列的实例中都出现问题。所以，两者取其轻，需要在`finally`块中，对解锁操作加以限制。
 
 key的value可以设置为一个随机值，用于区分是不是自身持有的锁：
 
 ```java
-String value = UUID.randomUUID().toString() + Thread.currentThread().getName(); // 随机生成一个UUID加上当前线程的名字
+String value = UUID.randomUUID().toString() + "-" + Thread.currentThread().getName(); // 随机生成一个UUID加上当前线程的名字
 Boolean isLock = redisTemplate.opsForValue().setIfAbsent(LOCK_KEY, value, 10L, TimeUnit.SECONDS); // 加锁并同时设置过期时间
 
 ...
@@ -216,7 +216,7 @@ finally {
 
 ### 利用Lua脚本
 
-最常见的方法是让redis执行Lua脚本，redis自身保证可以原子性地执行一个Lua脚本。redis官方文档中也对分布式锁的实现有说明：[Correct Implementation with a Single Instance](https://redis.io/docs/reference/patterns/distributed-locks/#correct-implementation-with-a-single-instance)。
+最常见的方法是让redis执行Lua脚本，将判断和删除操作写在一个Lua脚本中，redis自身保证可以原子性地执行一个Lua脚本。redis官方文档中也对分布式锁的实现有说明：[Correct Implementation with a Single Instance](https://redis.io/docs/reference/patterns/distributed-locks/#correct-implementation-with-a-single-instance)。
 
 ```java
 finally {
@@ -238,10 +238,52 @@ finally {
 
 ### 利用redis事务
 
-redis支持事务：[Transactions](https://redis.io/docs/manual/transactions)，并且redis支持一个命令：`watch`，可以用于在提交事务的过程中，监听一个key是否发生改变，如果发生改变，那么提交完事务后进行执行，事务会执行失败。
+redis支持事务：[Transactions](https://redis.io/docs/manual/transactions)，并且redis支持一个命令：`watch`，可以用于在提交事务的过程中，监听跟事务相关的key是否发生改变，如果发生改变，那么提交完事务后进行执行，事务会执行失败。
 
-所以，可以利用redis事务的原子性和`watch`命令，实现一种`乐观锁`（[Optimistic locking using check-and-set](https://redis.io/docs/manual/transactions/#optimistic-locking-using-check-and-set)）式的原子性删锁方式。
+所以，可以利用redis事务的隔离性和`watch`命令，实现一种`乐观锁`（[Optimistic locking using check-and-set](https://redis.io/docs/manual/transactions/#optimistic-locking-using-check-and-set)）式的原子性删锁方式。
 
 ```java
-
+finally {
+    redisTemplate.watch(LOCK_KEY); // 监听锁
+    // 先判断是否是自己加的锁
+    if (value.equals(redisTemplate.opsForValue().get(LOCK_KEY))) {
+        // 然后乐观锁式地进行解锁
+        // 由于redisTemplate不能保证一个事务中的命令都在同一个redis连接中执行，所以匿名实现下面的接口
+        List<Object> execResult = redisTemplate.execute(new SessionCallback<List<Object>>() {
+            @Override
+            public List<Object> execute(RedisOperations operations) throws DataAccessException {
+                operations.multi(); // 开启事务
+                operations.delete(LOCK_KEY);
+                List<Object> exec = operations.exec();// 提交事务进行执行
+                return exec;
+            }
+        });
+        // 如果事务执行成功，会返回事务中每条命令的执行结果并包装成List，如果List长度为0，则说明事务执行失败
+        if (execResult.size() == 0) {
+            System.out.println(value + ": 删锁失败！");
+        } else {
+            System.out.println(value + ": 删锁成功！");
+        }
+    }
+}
 ```
+
+## 锁续期
+
+给锁设置过期时间始终会导致误删锁的问题，那有什么办法可以解决这个问题呢？
+
+由于问题是业务的处理时间超过了锁过期时间造成的，那么可以设置这样一种机制：当一个线程获取到锁之后，再开启一个线程用于监听这个业务线程，监听线程负责定时去查看业务线程是否处理完业务，如果没有处理完，监听线程就会去延长锁的过期时间。这种机制叫做`看门狗`机制。
+
+虽然方法看起来简单，但具体实现起来要考虑很多因素，自己写的话也难免会存在一些Bug。所以redis官方推荐了一种Java实现的redis客户端：[Redisson](https://redis.io/docs/clients/#java)，它内部实现了一套完善的基于redis的分布式锁，里面就包含有这种机制。
+
+## redis集群
+
+前面说了，为了分布式锁的高可用，redis必须以集群的形式进行部署。但由于redis集群不保证`强一致性`（[Redis Cluster consistency guarantees](https://redis.io/docs/manual/scaling/#redis-cluster-101)），所以分布式锁可能会出现问题。
+
+想象一下这样一个场景：一个实例往redis集群中的一个主节点A加锁，由于redis主从模型默认采用的是异步复制，所以A可能先回复实例加锁成功，但还没来得及把数据复制到它的副本，A就挂掉了，A的副本被其它主节点推选上位，而实例加的锁已经被丢弃不见了。
+
+为了缓解集群模式下分布式锁的问题，redis官方提出了一种算法：[The Redlock Algorithm](https://redis.io/docs/reference/patterns/distributed-locks/#the-redlock-algorithm)。上面提到的`Redisson`就是用这种算法来进行加锁解锁的。
+
+## 总结
+
+通过这次对分布式锁的学习，了解了redis的集群模式，还加深了对并发安全的理解，对并发程序进行同步控制就是为了让其执行结果看起来跟串行执行的结果一样。
