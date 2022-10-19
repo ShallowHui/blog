@@ -39,7 +39,7 @@ Docker采用C/S架构，下面是它的架构图：
 
 ## Docker的安装
 
-Docker支持Windows、macOS、Linux。
+Docker支持windowss、macOS、Linux。
 
 在官网上有相应平台的安装教程：
 

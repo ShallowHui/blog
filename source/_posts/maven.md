@@ -28,7 +28,7 @@ maven官网下载：[https://maven.apache.org/download.cgi](https://maven.apache
     M2_HOME=/maven存放目录/maven-版本号
     PATH=$PATH:$M2_HOME/bin
 
-这是linux下的配置方式，window下配置方式参考jdk的配置方式。
+这是linux下的配置方式，windows下配置方式参考jdk的配置方式。
 
 注意，maven是依赖于jdk的，所以要先确保你的系统里有`JAVA_HOME`环境变量。最后在命令行输入`mvn -version`，出现maven相关信息说明配置成功。
 

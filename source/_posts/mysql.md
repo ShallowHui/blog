@@ -1,13 +1,13 @@
 ---
-title: Window下MySQL常见问题解决
+title: windows下MySQL常见问题解决
 date: 2020-03-28 20:12:02
-tags: Windows
+tags: windowss
 categories: MySQL
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/mysql.jpg
 top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/mysql.jpg
-description: 这里记录了在Window系统上日常使用MySQL遇到的问题。
+description: 这里记录了在windows系统上日常使用MySQL遇到的问题。
 ---
-*我们在日常开发中，使用MySQL总会遇到各种各样的问题，这篇博客就记录总结一下Window系统下MySQL常见的问题和解决方法。*
+*我们在日常开发中，使用MySQL总会遇到各种各样的问题，这篇博客就记录总结一下windows系统下MySQL常见的问题和解决方法。*
 
 ## Community Server安装常见问题
 

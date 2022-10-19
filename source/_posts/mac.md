@@ -1,21 +1,21 @@
 ---
-title: MacOS下用zsh配置环境变量
+title: macOS下用zsh配置环境变量
 date: 2020-04-15 15:03:29
 tags: macOS
 categories: 开发环境配置
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/mac.jpg
 top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/mac.jpg
-description: 网上很多在MacOS上配置环境变量的教程都过时了，这里介绍了在zsh这个Shell上，如何用Vim配置环境变量。
+description: 网上很多在macOS上配置环境变量的教程都过时了，这里介绍了在zsh这个Shell上，如何用Vim配置环境变量。
 ---
 ## 前言
 
-这篇博客简单记录下如何在MacOS下用zsh这个Shell配置环境变量，因为在mac配置环境变量容易被网上一些比较旧的教程带入坑，比Window要麻烦一些。同时也简单介绍一下Shell和Vim。
+这篇博客简单记录下如何在macOS下用zsh这个Shell配置环境变量，因为在mac配置环境变量容易被网上一些比较旧的教程带入坑，比windows要麻烦一些。同时也简单介绍一下Shell和Vim。
 
 ## Shell
 
-首先我们简单了解一下，操作系统可以大致分为内核和外壳，Shell就是指外壳，英文意思就是“外壳、贝壳“。Shell就是操作系统内核与用户之间进行交互的”桥梁“，可以把它看成是一种解释命令的软件。比如Window下我们看到的桌面（explrer.exe），就是一层Shell，一种图形化的Shell，cmd（cmd.exe）是一种命令行式的Shell。
+首先我们简单了解一下，操作系统可以大致分为内核和外壳，Shell就是指外壳，英文意思就是“外壳、贝壳“。Shell就是操作系统内核与用户之间进行交互的”桥梁“，可以把它看成是一种解释命令的软件。比如windows下我们看到的桌面（explrer.exe），就是一层Shell，一种图形化的Shell，cmd（cmd.exe）是一种命令行式的Shell。
 
-那么就有多种Shell，就好像人不止一件衣服。你可以用下面这条命令看看MacOS下有多少个Shell：
+那么就有多种Shell，就好像人不止一件衣服。你可以用下面这条命令看看macOS下有多少个Shell：
 
 ``` bash
 $ cat /etc/shells
@@ -25,7 +25,7 @@ $ cat /etc/shells
 
 ![mac下的Shell](https://cdn.jsdelivr.net/gh/shallowhui/cdn/img/mac/shell.png)
 
-本来，Linux和MacOS都是以bash作为默认的Shell，不过Apple官方宣布，MacOS从`Catalina`这个大版本之后，把zsh作为默认的Shell。
+本来，Linux和macOS都是以bash作为默认的Shell，不过Apple官方宣布，macOS从`Catalina`这个大版本之后，把zsh作为默认的Shell。
 
 ![Catalina](https://cdn.jsdelivr.net/gh/shallowhui/cdn/img/mac/catalina.png)
 
@@ -75,4 +75,4 @@ $ echo $PATH
 
 ## 小结
 
-由于Linux和MacOS都是类Unix系统，Vim和Shell都是Linux的基础，这次配置环境的过程算是我开始接触Linux。
+由于Linux和macOS都是类Unix系统，Vim和Shell都是Linux的基础，这次配置环境的过程算是我开始接触Linux。

@@ -202,4 +202,4 @@ def ImgToGif(data):
 
 [https://github.com/ShallowHui/interesting-small-project/blob/master/COVID-19_visual.py](https://github.com/ShallowHui/interesting-small-project/blob/master/COVID-19_visual.py)
 
-+ 本代码只适合运行于window平台，在其它平台运行可能会报库不兼容错误。
++ 本代码只适合运行于windows平台，在其它平台运行可能会报库不兼容错误。

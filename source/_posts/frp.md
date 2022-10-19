@@ -67,7 +67,7 @@ frp可以在Gihub上下载：[https://github.com/fatedier/frp/releases](https://
 
 #### 部署客户端
 
-下载macos版本的frp，解压后得到的文件目录：
+下载macOS版本的frp，解压后得到的文件目录：
 
 ![FRP文件目录](https://cdn.jsdelivr.net/gh/shallowhui/cdn/img/frp/frpdir.png)
 
