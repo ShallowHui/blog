@@ -9,6 +9,6 @@ top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/friends.jpg
 >🎉博客名: zunhuier's blog
 >🔗博客链接: https://shallowhui.github.io
 >🎨头像: https://cdn.jsdelivr.net/gh/shallowhui/cdn/avatar.png
->🎈介绍: 此人很懒，暂时没有留下介绍...
+>🎈简介: 此人很懒，暂时没有留下介绍...
 
 *欢迎留下信息互相交换友链哦~*
