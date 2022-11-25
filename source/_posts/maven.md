@@ -36,32 +36,15 @@ maven官网下载：[https://maven.apache.org/download.cgi](https://maven.apache
 
 安装好maven后，进入maven的文件夹，打开conf文件夹，里面有一个`settings.xml`文件，它是maven的全局配置文件，打开它并做如下修改：
 
-在`<mirrors>`标签下添加阿里的镜像源，这样maven下载依赖的时候能快很多：
+在`<mirrors>`标签下添加阿里的镜像源，这样maven去官方中央仓库下载依赖的时候能快很多：
 
 ``` xml
 <mirror>
-    <id>alimaven</id>
-    <mirrorOf>central</mirrorOf>
-    <name>aliyun maven</name>
-    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+  <id>aliyunmaven</id>
+  <mirrorOf>central</mirrorOf>
+  <name>阿里云公共仓库</name>
+  <url>https://maven.aliyun.com/repository/public</url>
 </mirror>
-```
-
-在`<profiles>`标签下添加指定你用的jdk版本的配置，比如jdk8：
-
-``` xml
-<profile>
-    <id>jdk-1.8</id>
-    <activation>
-        <activeByDefault>true</activeByDefault>
-        <jdk>1.8</jdk>
-    </activation>
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-    </properties>
-</profile>
 ```
 
 ## 约定大于配置
@@ -301,4 +284,4 @@ Maven还有一些更高级的用途，可以根据需要去了解使用。
 
 gradle是比较新的工具，但目前主流的还是用maven。
 
-像在linux系统上，要对一些软件进行编译，可能就会用到古老的make了。
+像在linux系统上，要对一些软件进行编译，可能就会用到make了。
