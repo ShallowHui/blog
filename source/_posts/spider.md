@@ -80,7 +80,7 @@ print(chapter_list)
 
 ![list](https://cdn.jsdelivr.net/gh/shallowhui/cdn/img/spider/spiderlist.png)
 
-+ 可以看出findall函数返回一个匹配结果形成的列表，我会另写一篇博客来专门介绍用来在字符串中匹配特定内容的[正则表达式](https://zunhuier.club/2020/04/11/regularexpression/)。
++ 可以看出findall函数返回一个匹配结果形成的列表，我会另写一篇博客来专门介绍用来在字符串中匹配特定内容的[正则表达式](https://zunhuier.top/posts/46563/)。
 
 ### 清洗数据，打印输出
 

@@ -78,7 +78,7 @@ nohup jupyter notebook --allow-root &
 
     http://zunhuier.club:8888 #当然你的服务器要开放这个端口
 
-+ 我的域名`zunhuier.club`是解析到我的阿里云服务器的，指向我的服务器IP，Jupyter应该是默认只接收http请求的。
++ 我的域名`zunhuier.club`是解析到我的阿里云服务器的，指向我的服务器IP。*（23年换域名了~）*
 
 但浏览器链接的默认端口是80，每次访问Jupyter都要输入端口号有点麻烦。
 
