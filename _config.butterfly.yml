@@ -704,7 +704,7 @@ busuanzi:
 # Formal: Month/Day/Year Time or Year/Month/Day Time
 runtimeshow:
   enable: true
-  publish_date: 19/8/2020 00:00:00
+  publish_date: 8/19/2020 00:00:00
 
 # Aside widget - Newest Comments
 newest_comments:
