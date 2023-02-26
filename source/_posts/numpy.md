@@ -1,13 +1,14 @@
 ---
-title: Python第三方库一NumPy
+title: Python第三方库
 date: 2023-02-24T12:06:36.000Z
 tags:
   - NumPy
+  # - Matplotlib
   - Python高级
 categories: Python
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/python.jpg
 top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/python.jpg
-description: 这个系列的文章简单介绍一下像NumPy、Matplotlib这样功能强大的一些Python第三方库。
+description: 这篇文章主要用于简单介绍一下，一些功能强大的Python第三方库。
 ---
 ## NumPy
 
