@@ -24,7 +24,7 @@ NumPy已经成为Python中处理数值数据的通用标准，几乎用于科学
 $ pip install numpy
 ```
 
-导入
+导入：
 
 ```python
 import numpy as np # 简写为np比较方便
