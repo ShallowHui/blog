@@ -6,6 +6,7 @@ tags:
   - Matplotlib
   - Python高级
 categories: Python
+mathjax: true
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/python.jpg
 top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/python.jpg
 description: 这篇文章主要用于简单介绍一下，一些功能强大的Python第三方库。
