@@ -21,10 +21,10 @@
 }
 
 .aplayer.aplayer-fixed .aplayer-body {
-    bottom: 20px;
-    border-radius: 0 10px 10px 0;
+    bottom: 20px !important;
+    border-radius: 0 10px 10px 0 !important;
 }
 
-.aplayer .aplayer-miniswitcher {
-    border-radius: 0 10px 10px 0;
+.aplayer.aplayer-fixed .aplayer-body .aplayer-miniswitcher {
+    border-radius: 0 10px 10px 0 !important;
 }
