@@ -20,6 +20,10 @@
     left: 0 !important;
 }
 
+.aplayer.aplayer-fixed {
+    bottom: 20px !important;
+}
+
 .aplayer.aplayer-fixed .aplayer-body {
     bottom: 20px !important;
     border-radius: 0 10px 10px 0 !important;
