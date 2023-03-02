@@ -340,7 +340,7 @@ facebook_comments:
 # Twikoo
 # https://github.com/imaegoo/twikoo
 twikoo:
-  envId: https://zunhuier.zeabur.app
+  envId: https://twikoo.zunhuier.top
   region:
   visitor: false
   option:
