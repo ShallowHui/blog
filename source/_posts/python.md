@@ -181,7 +181,7 @@ for x in range2(1,5,0.5): #通过for循环来迭代生成器对象
 
 ## 列表生成式
 
-列表生成式即List Comprehensions，是python内置的非常简单却强大的可以用来创建list的生成式。
+列表生成式即List Comprehensions，是生成器的另一种创建方式，以表达式进行创建。
 
 例如，要生成list`[1,2,3,4,5,6]`，我们可以使用一个迭代对象来生成list：
 
