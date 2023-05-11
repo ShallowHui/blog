@@ -58,7 +58,7 @@ OAuth 2.0协议定义了四种授权许可的类型：
 
 客户端需要告诉授权服务器所需的各种信息，比如应用类型、应用名、应用的回调地址、应用logo等等，这些都需要授权服务器去进行审核以此判断该应用是否正规，就比如微信也不可能随便就允许任意一个第三方应用来请求获得自身微信用户的信息。
 
-最后，客户端会获得授权服务器给予的一个应用id和应用密钥，这是用来对客户端进行认证的，客户端需要将这两个数据保存好，不能泄露。
+**最后，客户端会获得授权服务器给予的一个应用id和应用密钥，这是用来对客户端进行认证的，客户端需要将这两个数据保存好，不能泄露。**
 
 ### 授权请求
 
@@ -69,7 +69,7 @@ OAuth 2.0协议定义了四种授权许可的类型：
 | | 参数名 | 描述 |
 | :------: | :------: | :------: |
 | 必须 | response_type | 响应类型，这里必须为`code` |
-| 必须 | client_id | 上面注册时获取到的客户端id |
+| 必须 | client_id | 上面注册客户端时获取到的应用id |
 | 可选 | redirect_uri | 回调地址，如果为空，则使用注册时填的回调地址 |
 | 可选 | scope | 访问请求的范围 |
 | 可选 | state | 客户端用来维护状态的一个随机值，用于防止CSRF攻击 |
@@ -104,3 +104,62 @@ Location: http://client.example.com/code?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz
 
 #### 为什么不直接返回访问令牌
 
+这里可能会产生一个疑问，为什么授权服务器不直接返回访问令牌，还要客户端根据授权码再去获取？
+
+这是因为安全问题，因为授权服务器是通过让用户代理重定向到客户端来传递参数，也就是通过`HTTP`请求，但不是所有客户端都支持`HTTPS`访问的，所以如果授权服务器直接返回访问令牌，那在用户代理重定向访问到客户端的时候，访问令牌就有可能泄露出去。
+
+而如果只有授权码泄露出去的话，是没什么问题的，因为要获取到访问令牌，除了授权码，还要有客户端的应用密钥，也就是之前注册的时候得到的密钥，而应用密钥是保存在客户端的，还有授权码一般是只能使用一次。
+
+反之，授权服务器是一定(要)支持`HTTPS`访问的，所以，客户端用授权码和应用密钥去访问授权服务器是安全的，不用担心应用密钥泄露。
+
+### 访问令牌请求
+
+客户端拿到授权码之后，可以通过`POST`请求访问授权服务器的令牌端点，并以`application/x-www-form-urlencoded`的方式携带以下参数：
+
+| | 参数名 | 描述 |
+| :------: | :------: | :------: |
+| 必须 | grant_type | 授权类型，这里必须为`authorization_code` |
+| 必须 | code | 授权码 |
+| 必须 | secret | 应用密钥 |
+| 必须 | client_id | 应用id |
+
+请求示例如下：
+
+```text
+POST /token HTTP/1.1
+
+Host: authorize_server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&secret=czZCaGRSa3F0MzpnWDFmQmF0M2JW&client_id=s6BhdRkqt3
+```
+
+### 访问令牌响应
+
+授权服务器如果对访问令牌请求校验成功了，会返回如下成功的响应示例：
+
+```text
+HTTP/1.1 200 OK
+
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+"access_token":"2YotnFZFEjr1zCsicMWpAA",
+"token_type":"example",
+"expires_in":3600,
+"refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
+"example_parameter":"example_value"
+}
+```
+
+`access_token`就是访问令牌，客户端可以用这个令牌去访问资源服务器，从而在相应权限下，获得用户也就是资源所有者的相关信息。访问令牌有时效，可以通过`refresh_token`去重置时效。
+
+**注意，访问令牌一般是只保存在客户端，由客户端来跟资源服务器进行交互的，不会保存到用户代理那里。**
+
+## 总结
+
+正如上面所说，`RFC`只是一个建议标准，一种规范，具体的实现细节需要自己考虑。比如上面的访问令牌请求的参数，会跟`RFC`文档里的有点不太一样，这是因为可能每个授权服务器的具体接口实现不太一样，这里参考了微信开放平台的文档，其访问令牌请求参数是自己定义的，而且用的是`GET`请求。如果想要自己实现一个OAuth 2.0的客户端，接入第三方登录的话，需要去参考实际授权平台的OAuth接入文档。
+
+但总的来说，OAuth 2.0协议授权的流程、步骤，是在`RFC`中定义好的规范。
