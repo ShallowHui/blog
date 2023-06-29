@@ -262,7 +262,7 @@ public enum ElementType {
 
 如果一个自定义注解没有加@Retention，则默认是CLASS的，即这个自定义注解只会被编译进.class文件中，而不会被加载进内存中。
 
-**因此，如果我们想要自定义的注解在程序运行期间可以被读取到并起作用，务必要用@Retention(RetentionPolicy.RUNTIME)去修饰它。
+**因此，如果我们想要自定义的注解在程序运行期间可以被读取到并起作用，务必要用@Retention(RetentionPolicy.RUNTIME)去修饰它。**
 
 ## 使用注解
 
@@ -322,8 +322,10 @@ public class Main {
 
 结果：
 
+```text
 成员属性值name是zunhuier
 成员属性值name不是zunhuier
+```
 
 ## 总结
 
