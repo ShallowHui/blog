@@ -92,7 +92,7 @@ def getGeoData():
 
 ![疫情数据集中的台湾](https://cdn.jsdelivr.net/gh/shallowhui/cdn/img/covid19/cases_taiwan.png)
 
-![国家地理数据集中的台湾](https://cdn.jsdelivr.net/gh/shallowhui/cdn/img/covid19/cases_taiwan.png)
+![国家地理数据集中的台湾](https://cdn.jsdelivr.net/gh/shallowhui/cdn/img/covid19/countries_taiwan.png)
 
 + 两个数据集中的国家名不一定对得上，比如地理数据集中的美国国家名为`United States of America`，而疫情数据集中却为`US`。
 
