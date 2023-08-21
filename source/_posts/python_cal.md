@@ -342,4 +342,170 @@ array([-0.1,  1.2,  1.2,  4. ,  3.9,  5. ])
 
 其中，`y1`相当于函数`y=x`，`y2`相当于一些有误差的样本数据，最后的值就是两者之间的方差。
 
-## Matplotlib
+## Pandas
+
+Pandas是Python的核心数据分析支持库，提供了快速、灵活、明确的数据结构，旨在简单、直观地处理**关系型、标记型**数据。
+
+Pandas是基于NumPy开发的，可以与其它第三方科学计算支持库完美集成。Pandas适合处理以下类型的数据：
+
++ 与SQL或者Excel表类似的，含异构（不同数据类型）列的表格数据。
++ 有序或无序（非固定频率）的时间序列数据。
++ 带行列标签的矩阵数据，包括同构或异构型数据。
++ 任意其它形式的观测、统计数据集。
+
+### 安装和导入Pandas
+
+安装：
+
+```bash
+$ pip install pandas
+```
+
+导入：
+
+```python
+import numpy as np # 一般连同numpy一起导入
+import pandas as pd
+```
+
+### 数据结构
+
+与NumPy的n维数组结构不同，Pandas的主要数据结构就是`Series`（一维数据）和`DataFrame`（二维数据），因为这两种数据结构已经足以处理金融、统计、社会科学、工程等领域内的大部分典型数据了。
+
+#### Series
+
+Series是带标签的一维数组，可以存储整数、浮点数、字符串、Python对象等类型的数据。Series的标签被称为索引（`index`），一个标签对应一个数据。
+
+调用`pd.Series`函数即可创建Series：
+
+```python
+>>> s = pd.Series(data, index=index)
+```
+
+`data`参数支持以下几种方式传入数据：
+
++ Python字典：
+
+```python
+>>> d = {'b': 1, 'a': 0, 'c': 2}
+>>> s = pd.Series(d)
+>>> s
+b    1
+a    0
+c    2
+dtype: int64
+```
+
+如果以字典的方式传入数据，并且`index`参数缺省，则默认会以字典中相应的key作为数据的标签，可以通过`s.index`查看Series对象的标签：
+
+```python
+>>> s.index
+Index(['b', 'a', 'c'], dtype='object')
+```
+
+如果设置了`index`参数，则会把`index`参数当作key，去提取字典中的值：
+
+```python
+>>> d = {'b': 1, 'a': 0, 'c': 2}
+>>> s = pd.Series(d, index=['b', 'c', 'd', 'a'])
+>>> s
+b    1.0
+c    2.0
+d    NaN
+a    0.0
+dtype: float64
+```
+
+由于字典中没有`d`这个key，所以Series中`d`标签对应的数据为`NaN`。**注意，Pandas中用NaN（Not a Number）表示数据缺失。**
+
++ numpy对象：
+
+当`data`参数是一个numpy对象时，标签长度必须与numpy对象的长度一致：
+
+```python
+>>> s = pd.Series(np.random.randn(5), index=['a', 'b', 'c', 'd', 'e'])
+>>> s
+a    0.085665
+b    0.339841
+c   -1.257418
+d    0.706560
+e    1.096948
+dtype: float64
+```
+
+如果没有指定`index`参数，则默认会创建一个整数索引：
+
+```python
+>>> s = pd.Series(np.random.randn(5))
+>>> s
+0   -0.094684
+1    0.528470
+2    0.202291
+3    0.919904
+4   -0.309003
+dtype: float64
+>>> s.index
+RangeIndex(start=0, stop=5, step=1)
+```
+
++ 列表：
+
+```python
+>>> s = pd.Series([1, 3, 5, np.nan, 6, 8])
+>>> s
+0    1.0
+1    3.0
+2    5.0
+3    NaN
+4    6.0
+5    8.0
+dtype: float64
+```
+
++ 标量值：
+
+如果是标量值的话，必须提供索引，Pandas会自动根据索引长度重复改标量值：
+
+```python
+>>> s = pd.Series(5, index=['a', 'b', 'c', 'd', 'e'])
+>>> s
+a    5
+b    5
+c    5
+d    5
+e    5
+dtype: int64
+```
+
+Series的操作与NumPy的ndarrary对象类似，支持大多数NumPy函数，还可以进行各种花式索引和切片：
+
+```python
+>>> s = pd.Series(np.random.randn(5))
+>>> s
+0   -0.713951
+1    1.830373
+2   -0.481400
+3   -2.423198
+4    0.556725
+dtype: float64
+# 索引
+>>> s[0]
+-0.7139514490641597
+# 切片, 返回一个新的Series对象
+>>> s[:3]
+0   -0.713951
+1    1.830373
+2   -0.481400
+dtype: float64
+# 布尔索引，返回大于中位数的数据
+>>> s[s > s.median()]
+1    1.830373
+4    0.556725
+dtype: float64
+# 列表索引
+>>> s[[4, 3, 1]]
+4    0.556725
+3   -2.423198
+1    1.830373
+dtype: float64
+```

@@ -93,7 +93,7 @@ for chapter in chapter_list:
     print(chapter_url,chapter_title)
 ```
 
-![Result](https://cdn.jsdelivr.net/gh/shallowhui/cdn/img/spider/spiderresult.png)
+![Result](https://cdn.jsdelivr.net/gh/shallowhui/cdn/img/spider/spiderresult.png)
 
 ### 分析数据
 
