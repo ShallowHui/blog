@@ -90,7 +90,7 @@ index_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn@master/index.jpg
 default_top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/tag.png
 
 # The banner image of archive page
-archive_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/categories.jpeg
+archive_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/timeline.png
 
 # If the banner of tag page not setting, it will show the top_img
 # note: tag page, not tags page (子標籤頁面的 top_img)

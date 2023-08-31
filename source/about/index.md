@@ -4,7 +4,7 @@ date: 2022-08-21 13:56:31
 type: "about"
 top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/gallery.jpg
 ---
-[![GitHub stats](https://github-readme-stats.vercel.app/api?username=ShallowHui&show_icons=true&theme=radical)](https://github.com/ShallowHui)
+[![](https://github-readme-stats.vercel.app/api?username=ShallowHui&show_icons=true&theme=radical)](https://github.com/ShallowHui)
 
 ### Hi there 👋
 
