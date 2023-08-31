@@ -7,9 +7,6 @@ menu:
   时间轴: /archives/ || fas fa-archive
   标签: /tags/ || fas fa-tags
   分类: /categories/ || fas fa-folder-open
-  列表||fas fa-list||hide:
-    Music: /music/ || fas fa-music
-  #   Movie: /movies/ || fas fa-video
   链接: /link/ || fas fa-link
   关于&留言: /about/ || fas fa-heart
 
@@ -656,7 +653,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description: Shallow Dream~
+    description: Shallow Dream
     button:
       enable: true
       icon: fab fa-github
