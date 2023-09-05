@@ -2,7 +2,7 @@
 title: EventSoruce简介
 date: 2023-09-05 14:38:02
 tags:
-  - javascript
+  - JavaScript
   - EventSource
 categories: 技术
 cover: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/javascript.png
