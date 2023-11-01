@@ -2,10 +2,10 @@
  * 让网站全灰的效果
  */
 
-html {
+/* html {
     filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
     -webkit-filter: grayscale(100%);
-}
+} */
 
 
 
