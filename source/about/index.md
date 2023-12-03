@@ -10,6 +10,6 @@ top_img: https://cdn.jsdelivr.net/gh/shallowhui/cdn/top_img/gallery.jpg
 
 Here are some ideas to get you started:
 
-- 🔭 I’m currently working on GuangDong, China
+- 🔭 I’m currently working on China
 - 📫 How to reach me: [**📧 1031762684@qq.com**](mailto:1031762684@qq.com)
 - ⚡ Here is my blog: [**💬 zunhuier's blog**](https://zunhuier.top)
