@@ -160,6 +160,6 @@ Pragma: no-cache
 
 ## 总结
 
-正如上面所说，`RFC`只是一个建议标准，一种规范，具体的实现细节需要自己考虑。比如上面的访问令牌请求的参数，会跟`RFC`文档里的有点不太一样，这是因为可能每个授权服务器的具体接口实现不太一样，这里参考了微信开放平台的[文档](https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html)，其访问令牌请求参数是自己定义的，而且用的是`GET`请求。如果想要自己实现一个OAuth 2.0的客户端，接入第三方登录的话，需要去参考实际授权平台的OAuth接入文档。
+正如上面所说，`RFC`只是一个建议标准，一种规范，具体的实现细节需要自己考虑。比如上面的访问令牌请求的参数，会跟`RFC`文档里的有点不太一样，这是因为可能每个授权服务器的具体接口实现不太一样，这里参考了微信开放平台的[文档](https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html)，其访问令牌请求参数是自己定义的，而且微信用的是`GET`请求。如果想要自己实现一个OAuth 2.0的客户端，接入第三方登录的话，需要去参考实际授权平台的OAuth接入文档。
 
 但总的来说，OAuth 2.0协议授权的流程、步骤，是在`RFC`中定义好的规范。
