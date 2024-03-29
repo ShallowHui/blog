@@ -50,7 +50,7 @@ paths:
 
 随着`OpenAPI 3.0`版本的发布，OpenAPI规范更加注重规范本身，而不关心具体实现的工具，所以与之对应的`Swagger 3`被视作为基于OpenAPI 3.0规范实现的一个工具集，之前版本的Swagger 2被称为`Swagger 2`或者`OpenAPI 2.0`规范。**如今，OpenAPI已经成为了描述RESTful API的标准规范，而Swagger则更多地被看作是实现这一规范的工具集。**
 
-最新的`OpenAPI 3.0 Specification`如下：
+最新的[OpenAPI 3.0 Specification](https://swagger.io/docs/specification/about)如下：
 
 ```yaml
 openapi: 3.0.0
@@ -103,7 +103,7 @@ Knife4j有多个版本，每个版本有对应支持的OpenAPI规范版本和Spr
 
 ![Knife4j](https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/knife4j-ui.png)
 
-由于Knife4j底层OpenAPI 3.0规范解析框架依赖的是`springdoc-openapi`项目(springdoc依赖swagger)，所以开发者完全可以参考[springdoc-openapi](https://github.com/springdoc/springdoc-openapi)的项目说明来进行相关配置，Knife4j只是提供了一个重构的UI界面和一些额外的增强功能，如果要启用Knife4j的增强功能，需要在配置文件中开启：
+由于Knife4j 4.0底层OpenAPI 3.0规范解析框架依赖的是`springdoc-openapi`项目(springdoc依赖swagger)，所以开发者完全可以参考[springdoc-openapi](https://github.com/springdoc/springdoc-openapi)的项目说明来进行相关配置，Knife4j只是提供了一个重构的UI界面和一些额外的增强功能，如果要启用Knife4j的增强功能，需要在配置文件中开启：
 
 ```yaml
 # springdoc-openapi的配置
@@ -163,7 +163,8 @@ public class OpenAPIConfig {
 
 最后，就是使用OpenAPI规范的注解，来注释各个Restful接口了，下面介绍这些注解的作用。
 
-## 标记接口
+## 注解
 
 ### @Tag
 
+这个注解用于标记
