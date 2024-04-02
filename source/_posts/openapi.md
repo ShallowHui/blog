@@ -167,4 +167,74 @@ public class OpenAPIConfig {
 
 ### @Tag
 
-这个注解用于标记
+这个注解作用于类上，也可以标记到方法上，起一个标记的作用。一般加在Controller类上，表示这个Controller下的所有接口是某一类的接口，被归类到同一标记下，可以起到接口分组的作用。
+
+```java
+import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@RestController
+@Tag(name = "测试接口", description = "这个controller里的都是测试接口")
+public class TestController {
+
+}
+```
+
+### @Operation
+
+一般加在接口方法上，表示这是一个操作，用来对接口进行详细的描述。后面讲的@Parameters、@ApiResponses注解的作用其实都可以直接用@Operation注解中的属性来说明实现，一个注解就能干很多事。
+
+```java
+import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+
+@RestController
+@Tag(name = "测试接口", description = "这个controller里的都是测试接口")
+public class TestController {
+  
+    @Operation(summary = "修改用户信息", description = "上传用户id和用户信息")
+    @PutMapping(value = "/api/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommonResponse<User> user(@RequestBody User user, @PathVariable("id") int id) {
+        System.out.println(user);
+        user.setId(id);
+        // 修改用户信息...
+        return CommonResponse.result(ResultEnum.SUCCESS, user);
+    }
+
+}
+```
+
+### @Parameters和@Parameter
+
+这两个注解用于描述接口中的显式参数，显式参数是指`header、query、path、cookie`上的参数，不是请求体中的参数，请求体有专门的注解说明。@Parameters中可以有多个@Parameter。
+
+```java
+import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+
+@RestController
+@Tag(name = "测试接口", description = "这个controller里的都是测试接口")
+public class TestController {
+  
+    @Operation(summary = "修改用户id", description = "上传用户id和用户信息")
+    @Parameters({
+            @Parameter(name = "id", description = "要修改的用户id", in = ParameterIn.PATH)
+    })
+    @PutMapping(value = "/api/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommonResponse<User> user(@RequestBody User user, @PathVariable("id") int id) {
+        System.out.println(user);
+        user.setId(id);
+        // 修改用户信息...
+        return CommonResponse.result(ResultEnum.SUCCESS, user);
+    }
+
+}
+```
+
+**springdoc会自动扫描接口方法中的参数，自动推断参数的类型，判断是header、query、path或者cookie上的参数。如果要给方法参数添加summary和description，那@Parameter注解的`name`属性要设置成跟方法参数名一样，但注意，`name`属性始终表示的是HTTP请求中的参数名。**
+
+### @RequestBody
