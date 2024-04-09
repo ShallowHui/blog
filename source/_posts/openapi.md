@@ -385,7 +385,7 @@ public class OpenAPIConfig {
 }
 ```
 
-上面的配置表示，每次请求都需要在请求头中携带`Authorization`标头的apikey。`SecurityScheme.Type`还有其它支持的验证方法，比如http basic认证，http bearer认证，oauth2认证等等。
+上面的配置表示，每次请求都需要在请求头中携带`Authorization`标头的api key。`SecurityScheme.Type`还有其它支持的验证方法，比如http basic认证，http bearer认证，oauth2认证等等。
 
 如果不是所有接口都需要验证，可以在`globalOpenApiCustomizer`方法的代码中，对path进行判断，排除掉某些接口。或者麻烦点，不全局添加，而是在每个需要的接口方法上添加@SecurityRequirement注解：
 
