@@ -184,7 +184,6 @@ public class TestController {
     @PutMapping("/api/user/{id}")
     public CommonResponse<User> user(@RequestBody User user, @PathVariable("id") int id) {
         System.out.println(user);
-        user.setId(id);
         // 修改用户信息...
         return CommonResponse.result(ResultEnum.SUCCESS, user);
     }
@@ -202,6 +201,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 
 @RestController
 @Tag(name = "测试接口", description = "这个controller里的都是测试接口")
@@ -209,12 +209,11 @@ public class TestController {
   
     @Operation(summary = "修改用户id", description = "上传用户id和用户信息")
     @Parameters({
-            @Parameter(name = "id", description = "要修改的用户id", in = ParameterIn.PATH)
+            @Parameter(name = "id", description = "要修改的用户id", in = ParameterIn.PATH, example = "123")
     })
     @PutMapping("/api/user/{id}")
     public CommonResponse<User> user(@RequestBody User user, @PathVariable("id") int id) {
         System.out.println(user);
-        user.setId(id);
         // 修改用户信息...
         return CommonResponse.result(ResultEnum.SUCCESS, user);
     }
@@ -222,7 +221,231 @@ public class TestController {
 }
 ```
 
-**springdoc会自动扫描接口方法中的参数，推断参数的数据类型。如果要手动给接口方法中的参数添加描述，那@Parameter注解的`name`属性要设置成跟方法参数名一样。注意，`name`属性始终表示的是HTTP请求中的参数名。**
+**springdoc会自动扫描接口方法中的参数，推断参数的数据类型，以及根据@PathVariable注解判断出是path上的参数。如果要手动给接口方法中的参数添加描述，那@Parameter注解的`name`属性要设置成跟方法参数名一样。注意，`name`属性始终表示的是HTTP请求中的参数名。**
 
 ### @RequestBody
 
+这个注解用来描述请求体中的内容，比如`Content-Type`是`multipart/form-data`、`application/x-www-form-urlencoded`或者`application/xml`等等类型的请求，还有可能是上传文件之类的请求，这类请求中的请求体内容可以通过这个注解来定义，关键是注解的`content`属性。
+
+```java
+@PostMapping("/api/hello")
+@Operation(summary = "Hello", description = "回复Hello")
+@io.swagger.v3.oas.annotations.parameters.RequestBody(
+        content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+        schema = @Schema(implementation = User.class))
+)
+public CommonResponse<String> hello(User user) {
+    return CommonResponse.result(ResultEnum.SUCCESS, "hello");
+}
+```
+
+上面例子的接口方法中用一个实体类来接收参数，默认springdoc会把它解析为query上的参数，形如`/api/hello?username=xxx&birthday=xxx`，而POST请求一般参数是在请求体中的，所以可以通过@RequestBody注解来指明将`User`类中的属性解析为表单中的字段，以`multipart/form-data`的格式来传递参数。
+
+**注意，SpringMVC也有个@RequestBody注解，两者的包名不同，SpringMVC的@RequestBody注解可以加在接口方法的参数前面，表示请求参数是在请求体中以json的格式进行传递，springdoc会自动解析出来。**
+
+### @ApiResponses和@ApiResponse
+
+这两个注解用于描述接口的响应内容，默认情况下，springdoc会根据接口方法的返回值自动推断出要返回什么类型的数据。如果想要自定义响应内容，就可以使用这两个注解，@ApiResponses中可以有多个@ApiResponse。
+
+```java
+import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+@RestController
+@Tag(name = "测试接口", description = "这个controller里的都是测试接口")
+public class TestController {
+  
+    @Operation(summary = "修改用户id", description = "上传用户id和用户信息")
+    @Parameters({
+            @Parameter(name = "id", description = "要修改的用户id", in = ParameterIn.PATH, example = "123")
+    })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "成功，返回用户信息"),
+            @ApiResponse(responseCode = "400", description = "请求错误", content = @Content)
+    })
+    @PutMapping("/api/user/{id}")
+    public CommonResponse<User> user(@RequestBody User user, @PathVariable("id") int id) {
+        System.out.println(user);
+        // 修改用户信息...
+        return CommonResponse.result(ResultEnum.SUCCESS, user);
+    }
+
+}
+```
+
+### @Schema
+
+这个注解用于描述数据模型，一般加在实体类和实体类中的属性上，用于springdoc解析数据，比如上面那些例子中的`CommonResponse`和`User`类：
+
+```java
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import java.util.Date;
+
+@Data // Lombok
+@Schema(description = "用户实体类")
+public class User {
+
+    private int id;
+
+    @Schema(description = "用户名字", example = "zunhuier", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String username;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Schema(description = "用户生日", example = "1996-6-6", format = "date", type = "string")
+    private Date birthday;
+
+}
+```
+
+```java
+import com.paxsz.operation.entity.constant.ResultEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+@Data
+@Schema(description = "通用的响应体")
+public class CommonResponse<T> {
+
+    @Schema(description = "响应的状态码")
+    private int code;
+
+    @Schema(description = "响应的消息")
+    private String message;
+
+    @Schema(description = "响应的数据")
+    private T data;
+
+}
+```
+
+经过springdoc解析后，在OpenAPI中生成的Schema如下：
+
+![Schema](https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/openapi-schema.png)
+
+**被红星标记的属性说明是必需的。**
+
+### @Hidden
+
+这个注解可以加在接口方法或者实体类的属性上，用于隐藏接口和不必要返回的属性，比如某个接口还没开发完成，就可以加个@Hidden注解隐藏起来，不显示在接口文档上。
+
+## 接口调试
+
+Swagger有一个很方便的功能，就是可以直接在接口文档页面上进行调试，类似Postman，只需要点击接口旁边的`Try it out`按钮即可打开调试页面，填好参数后即可发送请求进行调试：
+
+![Test](https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/swagger-test.png)
+
+## 权限验证
+
+通常接口都会有权限验证，比如要携带token啥的，那接口调试怎么办？OpenAPI和Swagger提供了解决办法。
+
+首先在OpenAPI的配置类中定义`SecurityScheme`，然后通过`GlobalOpenApiCustomizer`给每个接口加上需要进行权限验证的Security OpenAPI属性：
+
+```java
+@Configuration
+public class OpenAPIConfig {
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("接口文档的标题")
+                        .description("接口文档的介绍")
+                        .version("接口文档的版本 V1")
+                        .license(new License().name("接口文档的许可协议 License").url("https://zunhuier.top"))
+                        .contact(new Contact().name("联系人 zunhuier").email("联系人邮箱")));
+                .components(new Components().addSecuritySchemes("Authorization", new SecurityScheme()
+                        .type(SecurityScheme.Type.APIKEY)
+                        .in(SecurityScheme.In.HEADER)));
+    }
+
+    /**
+     * 给每个接口都加上权限验证
+     */
+    @Bean
+    public GlobalOpenApiCustomizer globalOpenApiCustomizer() {
+        return openApi -> {
+            if (openApi.getPaths() != null) {
+                openApi.getPaths().forEach((path, pathItem) -> {
+                    // 这里可以判断path
+                    pathItem.readOperations().forEach(operation -> {
+                        operation.addSecurityItem(new SecurityRequirement().addList("Authorization"));
+                    });
+                });
+            }
+        };
+    }
+}
+```
+
+上面的配置表示，每次请求都需要在请求头中携带`Authorization`标头的apikey。`SecurityScheme.Type`还有其它支持的验证方法，比如http basic认证，http bearer认证，oauth2认证等等。
+
+如果不是所有接口都需要验证，可以在`globalOpenApiCustomizer`方法的代码中，对path进行判断，排除掉某些接口。或者麻烦点，不全局添加，而是在每个需要的接口方法上添加@SecurityRequirement注解：
+
+```java
+@SecurityRequirement(name = "Authorization")
+public CommonResponse<String> hello(User user, int abc) {
+    return CommonResponse.result(ResultEnum.SUCCESS, "hello");
+}
+```
+
+配置完成后，接口文档上的效果如图所示：
+
+![Authorization](https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/swagger-lock.png)
+
+页面上就会多了小锁的图标，最上面的绿色那个是全局验证，接口旁边的灰色小锁是每个接口单独的验证，点击图标就可以添加验证了，比如输入token。
+
+## JSR-303规范注解
+
+一般我们需要对请求参数进行校验，常用的是`JSR-303规范`下的一套Bean Validation注解，比如：
+
+```java
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import javax.validation.constraints.Size;
+import java.util.Date;
+
+@Data
+@Schema(description = "用户实体类")
+public class User {
+
+    @Schema(description = "主键")
+    private int id;
+
+    @Schema(description = "用户名字", example = "zunhuier", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Size(min = 3, max = 100) // 规定长度最小为3，最大为100
+    private String username;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Schema(description = "用户生日", example = "1996-6-6", format = "date", type = "string")
+    private Date birthday;
+
+}
+```
+
+```java
+import org.springframework.validation.annotation.Validated;
+
+// 记得添加@Validated注解
+public CommonResponse<User> user(@Validated @RequestBody User user, @PathVariable("id") int id) {
+    // 修改用户信息...
+    return CommonResponse.result(ResultEnum.SUCCESS, user);
+}
+```
+
+springdoc会自动检测到这些校验注解，并解析到接口文档上：
+
+![Validation](https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/swagger-validation.png)
+
+## 总结
+
+springdoc的官方文档对如何使用这些注解解释的比较少，不够全面，造成了可能接口文档上的内容跟自己预期的不太一样，需要多查看OpenAPI的规范文档，来了解OpenAPI中具体有哪些属性，跟注解中的属性对不对得上，是否可以用来输出自己想要的自定义内容。
