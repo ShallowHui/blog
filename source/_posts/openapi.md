@@ -442,7 +442,7 @@ public CommonResponse<User> user(@Validated @RequestBody User user, @PathVariabl
 }
 ```
 
-springdoc会自动检测到这些校验注解，并解析到接口文档上：
+类似的注解还有@Min、@Max、@NotNull和@NotBlank等等，springdoc会自动检测到这些校验注解，并解析到接口文档上：
 
 ![Validation](https://cdn.jsdelivr.net/gh/shallowhui/cdn/picgo/swagger-validation.png)
 
