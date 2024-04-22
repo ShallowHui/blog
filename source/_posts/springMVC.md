@@ -255,7 +255,7 @@ public Object handleMethod(@RequestBody Object object) {
 
 ### 简单数据绑定
 
-#### 绑定默认的数据类型
+#### 默认绑定的数据
 
 + HttpServletRequest：通过request对象获得请求中的信息。
 
@@ -304,6 +304,8 @@ public String api(@RequestParam("id") int userID) {
 ...
 
 ```
+
+**`@RequestParam`注解的`required`属性还可以用来指定参数是否必须，因为SpringMVC默认简单数据类型的参数是不能为null的，比如int、double，而包装数据类型的参数是可以为null的，比如String，所以可以添加这个注解指明参数是必须的，不能不传，required属性默认为true。**
 
 #### 绑定实体类型
 
@@ -422,12 +424,12 @@ public class DateConverter implements Converter<String, Date> {  //实现Convert
 	public Date convert(String source) {
 
         // 格式化日期
-		String thePattern = source.indexOf(":") == -1 ? datePatternShort:datePatternLong;
+		String thePattern = source.indexOf(":") == -1 ? datePatternShort : datePatternLong;
 		SimpleDateFormat sdf = new SimpleDateFormat(thePattern);
 		try {
 			return sdf.parse(source);
 		} catch (ParseException e) {
-			throw new IllegalArgumentException("无效的日期格式，请使用这种格式:"+thePattern);
+			throw new IllegalArgumentException("无效的日期格式，请使用这种格式:" + thePattern);
         }
     }
 }
