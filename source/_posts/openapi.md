@@ -281,7 +281,7 @@ public class TestController {
 
 ### @Schema
 
-这个注解用于描述数据模型，一般加在实体类和实体类中的属性上，用于springdoc解析数据，比如上面那些例子中的`CommonResponse`和`User`类：
+这个注解用于描述数据模型，一般加在类的成员属性上，用于springdoc解析数据，比如上面那些例子中的`CommonResponse`和`User`类：
 
 ```java
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -291,7 +291,6 @@ import lombok.Data;
 import java.util.Date;
 
 @Data // Lombok
-@Schema(description = "用户实体类")
 public class User {
 
     private int id;
@@ -312,7 +311,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(description = "通用的响应体")
 public class CommonResponse<T> {
 
     @Schema(description = "响应的状态码")
@@ -416,7 +414,6 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
-@Schema(description = "用户实体类")
 public class User {
 
     @Schema(description = "主键")
